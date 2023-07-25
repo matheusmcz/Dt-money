@@ -31,6 +31,30 @@
       "category": "Mobilidade",
       "price": 1360,
       "createdAt": "2023-07-24T17:05:02.862Z"
+    },
+    {
+      "description": "Tapioca",
+      "price": 16,
+      "category": "Alimentação",
+      "type": "outcome",
+      "createdAt": "2023-07-25T00:18:52.082Z",
+      "id": 5
+    },
+    {
+      "description": "Presente Emanuel",
+      "price": 50,
+      "category": "Presente",
+      "type": "income",
+      "createdAt": "2023-07-25T00:54:30.772Z",
+      "id": 6
+    },
+    {
+      "description": "IPTU",
+      "price": 873,
+      "category": "Moradia",
+      "type": "outcome",
+      "createdAt": "2023-07-25T00:55:09.093Z",
+      "id": 7
     }
   ]
 }
