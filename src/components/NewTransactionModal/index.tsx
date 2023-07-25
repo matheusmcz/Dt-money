@@ -3,7 +3,9 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useContextSelector } from "use-context-selector";
 import * as z from "zod";
+import { TransactionsContext } from "../../contexts/TransactionsContext";
 import {
   Close,
   Content,
@@ -13,7 +15,7 @@ import {
 } from "./styles";
 
 const newTransactionFormSchema = z.object({
-  desctiption: z.string(),
+  description: z.string(),
   price: z.number(),
   category: z.string(),
   type: z.enum(["income", "outcome"]),
@@ -26,11 +28,15 @@ interface NewTransactionModalProps {
 }
 
 export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({ setOpen }) => {
+  const createTransaction = useContextSelector(TransactionsContext, (context) => {
+    return context.createTransaction
+  });
   const {
     control,
     register,
     handleSubmit,
-    formState: { isSubmitting }
+    formState: { isSubmitting },
+    reset,
   } = useForm<NewTransactionsFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
     defaultValues: {
@@ -38,10 +44,19 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({ setOpe
     }
   })
 
+
   async function handleCreateNewTransaction(data: NewTransactionsFormInputs) {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log(data);
+    const { description, price, category, type } = data;
+
+    await createTransaction({
+      description,
+      price,
+      category,
+      type
+    })
+
     setOpen(false)
+    reset();
   }
 
   return (
@@ -60,7 +75,7 @@ export const NewTransactionModal: React.FC<NewTransactionModalProps> = ({ setOpe
             placeholder="Descrição"
             required
             data-description-field="description"
-            {...register("desctiption")} />
+            {...register("description")} />
           <input
             type="number"
             placeholder="Preço"
